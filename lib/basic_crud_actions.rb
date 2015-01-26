@@ -1,0 +1,2 @@
+module BasicCrudActions
+end
