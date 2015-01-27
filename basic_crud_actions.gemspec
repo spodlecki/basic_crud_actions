@@ -10,8 +10,9 @@ Gem::Specification.new do |s|
   s.authors     = ['SK Intertainment Inc']
   s.email       = ['contact.skintertainment.com']
   s.homepage    = 'http://skintertainment.com'
-  s.summary     = 'Adds basic CRUD-type controller actions to avoid duplication'
-  #s.description = 'TODO: Description of ActsAsCrud.'
+  WORDS_ABOUT_GEM = 'Adds basic CRUD-type controller actions to avoid duplication'
+  s.summary     = WORDS_ABOUT_GEM
+  s.description = WORDS_ABOUT_GEM
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]

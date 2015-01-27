@@ -19,7 +19,8 @@ module BasicCrudActions
     module LocalInstanceMethods
 
       def class_name
-       @class_name ||= self.class.to_s.gsub(/\w+::/, '').gsub('sController', '')
+       @class_name ||= self.class.to_s.gsub(/\w+::/, '').gsub('Controller', '')
+                         .singularize
       end
 
       def failure_flash
