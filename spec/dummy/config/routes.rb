@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  resources :tests
-  post '/create_fail' => 'tests#create_fail'
-  post '/update_fail' => 'tests#update_fail'
-  put '/update' => 'tests#update'
+  resources :test_models
+  post '/create_fail' => 'test_models#create_fail'
+  post '/update_fail' => 'test_models#update_fail'
+  put '/update' => 'test_models#update'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

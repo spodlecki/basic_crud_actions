@@ -1,4 +1,4 @@
-class TestsController < ApplicationController
+class TestModelsController < ApplicationController
   acts_as_crud
 
   def create

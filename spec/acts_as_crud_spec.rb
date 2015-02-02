@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe TestsController, type: :controller do
+describe TestModelsController, type: :controller do
   describe '#basic_crud_actions' do
-    context 'TestsController' do
+    context 'TestModelsController' do
       it 'names the action acts_as_crud' do
         expect(described_class.acts_as_crud_text_field).to eq 'acts_as_crud'
       end
@@ -17,36 +17,26 @@ describe TestsController, type: :controller do
 
   describe '.success_flash' do
     context '.create' do
-      it 'should set the notice flash to the appropriate value' do
-        post :create
-        expect(flash[:notice]).to eq 'Test was successfully created'
+      it_behaves_like 'basic_crud success flashes' do
+        let(:action) { post :create }
       end
     end
 
     context '.update' do
-      it 'should set the notice flash to the appropriate value' do
-        put :update
-        expect(flash[:notice]).to eq 'Test was successfully updated'
+      it_behaves_like 'basic_crud success flashes' do
+        let(:action) { post :update}
       end
     end
   end
 
   describe '.failure_flash' do
-    context '.create' do
-      it 'should set the notice flash to the appropriate value' do
-        get :create_fail
-        # the message is 'create_fail' because that's the quick controller action
-        # testing the method
-        expect(flash[:error]).to eq 'Could not create_fail Test'
-      end
+    it_behaves_like 'basic_crud failure flashes' do
+      let(:action) { get :create_fail}
     end
 
     context '.create' do
-      it 'should set the notice flash to the appropriate value' do
-        get :update_fail
-        # the message is 'update_fail' because that's the quick controller action
-        # testing the method
-        expect(flash[:error]).to eq 'Could not update_fail Test'
+      it_behaves_like 'basic_crud failure flashes' do
+        let(:action) { get :update_fail }
       end
     end
   end
