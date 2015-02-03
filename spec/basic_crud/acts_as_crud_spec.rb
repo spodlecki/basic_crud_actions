@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe TestModelsController, type: :controller do
+  before { allow(controller).to receive(:render) }
   describe '#basic_crud_actions' do
     context 'TestModelsController' do
       it 'names the action acts_as_crud' do
@@ -25,7 +26,8 @@ describe TestModelsController, type: :controller do
 
     context '.update' do
       it_behaves_like 'basic_crud success flashes' do
-        let(:action) { post :update }
+        let(:model) { TestModel.create }
+        let(:action) { post :update, id: model.id }
       end
     end
   end

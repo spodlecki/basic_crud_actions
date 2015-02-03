@@ -3,6 +3,7 @@ module BasicCrudActions
   # is a descendent of ActionController::Base
   module ActsAsCrud
     require_relative '../../lib/examples/flashes_examples'
+    require_relative 'args_with_context'
     extend ActiveSupport::Concern
     extend BasicCrudActions::Examples::FlashesExamples
 
@@ -28,8 +29,15 @@ module BasicCrudActions
       def model
         @model ||= class_name.constantize
       end
+
+      def args_with_context(*args)
+        BasicCrudActions::ArgsWithContext.new(self, *args)
+      end
+
       require_relative 'flashes'
       include BasicCrudActions::ActsAsCrud::Flashes
+      require_relative 'redirects'
+      include BasicCrudActions::ActsAsCrud::Redirects
     end
   end
 end

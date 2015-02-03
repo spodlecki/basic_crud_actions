@@ -36,4 +36,14 @@ describe TestModelsController, type: :controller do
       end
     end
   end
+
+  describe '.update_attributes' do
+    context 'valid params' do
+      it 'returns a success object' do
+        model = TestModel.create
+        get :update, id: model.id
+        expect_success_object
+      end
+    end
+  end
 end
