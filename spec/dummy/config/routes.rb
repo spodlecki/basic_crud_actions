@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   post '/create_fail' => 'test_models#create_fail'
   post '/update_fail' => 'test_models#update_fail'
   put '/update' => 'test_models#update'
+  get '/test_save' => 'test_models#test_save'
+  get '/test_save_bang' => 'test_models#test_save_bang'
+  get '/test_save_invalid' => 'test_models#test_save_invalid'
+  get '/test_save_bang_invalid' => 'test_models#test_save_bang_invalid'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

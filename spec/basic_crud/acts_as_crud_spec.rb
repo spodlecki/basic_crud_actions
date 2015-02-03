@@ -10,7 +10,8 @@ describe TestModelsController, type: :controller do
 
     context 'SecondTestsController (has acts_as_crud already' do
       it 'names the action crud_actions' do
-        expect(SecondTestsController.acts_as_crud_text_field).to eq 'crud_actions'
+        expect(SecondTestsController.acts_as_crud_text_field)
+          .to eq 'crud_actions'
       end
     end
   end
@@ -24,14 +25,14 @@ describe TestModelsController, type: :controller do
 
     context '.update' do
       it_behaves_like 'basic_crud success flashes' do
-        let(:action) { post :update}
+        let(:action) { post :update }
       end
     end
   end
 
   describe '.failure_flash' do
     it_behaves_like 'basic_crud failure flashes' do
-      let(:action) { get :create_fail}
+      let(:action) { get :create_fail }
     end
 
     context '.create' do

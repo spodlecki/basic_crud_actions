@@ -24,6 +24,10 @@ module BasicCrudActions
         @class_name ||= self.class.to_s.gsub(/\w+::/, '').gsub('Controller', '')
                         .singularize
       end
+
+      def model
+        @model ||= class_name.constantize
+      end
       require_relative 'flashes'
       include BasicCrudActions::ActsAsCrud::Flashes
     end
