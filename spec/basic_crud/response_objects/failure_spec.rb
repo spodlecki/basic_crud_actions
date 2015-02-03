@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../../spec/support/respondable_spec'
 
 describe BasicCrudActions::ResponseObjects::Failure do
   describe '.flash' do
@@ -20,4 +21,6 @@ describe BasicCrudActions::ResponseObjects::Failure do
       test_success_object.redirect
     end
   end
+
+  it_should_behave_like 'a Respondable'
 end

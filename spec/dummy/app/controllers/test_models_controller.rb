@@ -4,8 +4,7 @@ class TestModelsController < ApplicationController
 
   def create
     @test_save = TestModel.new.save(args_with_context)
-    @test_save.flash
-    @test_save.redirect
+    @test_save.respond
   end
 
   def create_fail
@@ -13,15 +12,13 @@ class TestModelsController < ApplicationController
       'create'
     end
     @test_save = BasicCrudActions::ResponseObjects::Failure.new(self)
-    @test_save.flash
-    @test_save.redirect
+    @test_save.respond
   end
 
   def update
     model = TestModel.find params[:id]
     @test_save = model.update_attributes(args_with_context(id: model.id + 1))
-    @test_save.flash
-    @test_save.redirect
+    @test_save.respond
   end
 
   def update_fail
@@ -29,8 +26,7 @@ class TestModelsController < ApplicationController
       'update'
     end
     @test_save = BasicCrudActions::ResponseObjects::Failure.new(self)
-    @test_save.flash
-    @test_save.redirect
+    @test_save.respond
   end
 
   def test_save
