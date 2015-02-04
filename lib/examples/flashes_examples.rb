@@ -3,7 +3,7 @@ module BasicCrudActions
     # RSpec shared examples to make sure success_flash and failure_flash
     # are working as intended.
     module FlashesExamples
-      if Rails.env == 'test'
+      if Rails.env.test?
         require 'rspec'
         ::RSpec.shared_examples 'basic_crud success flashes' do
           it 'should set the notice flash to the appropriate value' do

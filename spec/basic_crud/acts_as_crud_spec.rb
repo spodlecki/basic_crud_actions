@@ -4,8 +4,8 @@ describe TestModelsController, type: :controller do
   before { allow(controller).to receive(:render) }
   describe '#basic_crud_actions' do
     context 'TestModelsController' do
-      it 'names the action acts_as_crud' do
-        expect(described_class.acts_as_crud_text_field).to eq 'acts_as_crud'
+      it 'names the action acts_as_crud_verbose' do
+        expect(described_class.acts_as_crud_text_field).to eq 'acts_as_crud_verbose'
       end
     end
 
@@ -17,6 +17,27 @@ describe TestModelsController, type: :controller do
     end
   end
 
+  describe '.class name' do
+    context 'custom_name is set' do
+      it 'returns the custom name' do
+        class CustomController < ActionController::Base
+          acts_as_crud_verbose model_name: 'foo'
+        end
+        expect(CustomController.new.class_name).to eq 'foo'
+      end
+    end
+
+    context 'custom_name is not set' do
+      it 'returns the introspective_class_name' do
+        class CustomController < ActionController::Base
+          acts_as_crud_verbose
+        end
+        test_controller = CustomController.new
+        expect(test_controller.class_name)
+          .to eq test_controller.send(:introspective_class_name)
+      end
+    end
+  end
   describe '.success_flash' do
     context '.create' do
       it_behaves_like 'basic_crud success flashes' do

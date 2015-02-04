@@ -1,0 +1,9 @@
+<%= model_name %>sController < ApplicationController
+  def create
+    @<%= model_name %> = <%= model_name.camelize.constantize %>.new.save(args_with_context)
+    @test_save.respond
+  end
+
+  def edit
+
+end
