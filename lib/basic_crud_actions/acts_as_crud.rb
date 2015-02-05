@@ -18,11 +18,11 @@ module BasicCrudActions
         # Put methods that need access to the options hash here:
         # use define_method for closures!
         create_class_name(options)
+        create_model_assoc(options)
 
         include BasicCrudActions::ActsAsCrud::LocalInstanceMethods
       end
 
-      # TODO: pass in model as a param?
       def acts_as_crud(options = {})
         cattr_accessor :acts_as_crud_text_field
         self.acts_as_crud_text_field = options.fetch(:acts_as_crud_text_field,
@@ -31,6 +31,7 @@ module BasicCrudActions
         # Put methods that need access to the options hash here:
         # use #define_method for closures!
         create_class_name(options)
+        create_model_assoc(options)
 
         require_relative 'controller_actions'
         include_actions(BasicCrudActions::ControllerActions.to_include(options))
@@ -42,6 +43,13 @@ module BasicCrudActions
         define_method :class_name do
           @class_name ||= options.fetch(:model_name, nil) ||
                           introspective_class_name
+        end
+      end
+
+      def create_model_assoc(options)
+        define_method :model do
+          @model ||= options.fetch(:model, nil) ||
+            introspective_class_name.constantize
         end
       end
 
@@ -69,9 +77,6 @@ module BasicCrudActions
 
       private
 
-      def model
-        @model ||= introspective_class_name.constantize
-      end
 
       def introspective_class_name
         self.class.to_s.gsub(/\w+::/, '').gsub('Controller', '')

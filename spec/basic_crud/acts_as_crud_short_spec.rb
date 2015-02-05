@@ -82,6 +82,22 @@ describe ShortTestModelsController, type: :controller do
     end
   end
 
+  describe 'model option' do
+    context 'option set' do
+      it 'sets the model to the correct option' do
+        class CustomController3 < ActionController::Base
+          acts_as_crud model: TestModel
+        end
+        expect(CustomController3.new.model).to eq TestModel
+      end
+    end
+    context 'option not set' do
+      it 'sets the model to the introspected option' do
+        expect(described_class.new.model).to eq ShortTestModel
+      end
+    end
+  end
+
   describe '.create' do
     subject { post :create, test: {} }
     before { subject }
