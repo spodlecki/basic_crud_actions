@@ -1,5 +1,19 @@
 require 'rails_helper'
 
+def expect_not_to_respond(subject, actions)
+  expect_respond(subject, actions, :not_to)
+end
+
+def expect_to_respond(subject, actions)
+  expect_respond(subject, actions, :to)
+end
+
+def expect_respond(subject, actions, verb)
+  actions.each do |action|
+    expect(subject).public_send(verb, respond_to(action))
+  end
+end
+
 describe ShortTestModelsController, type: :controller do
   render_views
   describe '#basic_crud_actions' do
@@ -20,6 +34,7 @@ describe ShortTestModelsController, type: :controller do
   describe '.class name' do
     context 'custom_name is set' do
       it 'returns the custom name' do
+        # New controller for this spec only
         class CustomController < ActionController::Base
           acts_as_crud_verbose model_name: 'foo'
         end
@@ -29,6 +44,7 @@ describe ShortTestModelsController, type: :controller do
 
     context 'custom_name is not set' do
       it 'returns the introspective_class_name' do
+        # New controller for this spec only
         class CustomController < ActionController::Base
           acts_as_crud_verbose
         end
@@ -36,6 +52,33 @@ describe ShortTestModelsController, type: :controller do
         expect(test_controller.class_name)
           .to eq test_controller.send(:introspective_class_name)
       end
+    end
+  end
+
+  let(:selected_actions) { %i(destroy edit) }
+  let(:unselected_actions) { %i(create index update) }
+
+  describe 'except option' do
+    it 'does not respond to any of the eumerated methods' do
+      # New controller for this spec only
+      class CustomController < ActionController::Base
+        acts_as_crud except: [:destroy, :edit]
+      end
+      subject = CustomController.new
+      expect_not_to_respond(subject, selected_actions)
+      expect_to_respond(subject, unselected_actions)
+    end
+  end
+
+  describe 'only option' do
+    it 'only responds to the enumerated methods' do
+      # New controller for this spec only
+      class CustomController2 < ActionController::Base
+        acts_as_crud only: [:destroy, :edit]
+      end
+      subject = CustomController2.new
+      expect_to_respond(subject, selected_actions)
+      expect_not_to_respond(subject, unselected_actions)
     end
   end
 
@@ -47,7 +90,8 @@ describe ShortTestModelsController, type: :controller do
     end
 
     it 'invokes the correct response' do
-      expect(response).to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
+      expect(response)
+        .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
     end
   end
 
@@ -60,7 +104,8 @@ describe ShortTestModelsController, type: :controller do
     end
 
     it 'invokes the correct response' do
-      expect(response).to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
+      expect(response)
+        .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
     end
   end
 
@@ -91,16 +136,17 @@ describe ShortTestModelsController, type: :controller do
     end
   end
 
-   describe '.destroy' do
-     it 'destroys the correct model' do
-       model
-       expect{ delete :destroy, id: model.id }.to change { ShortTestModel.count }.by(-1)
-       expect{ ShortTestModel.find(model.id) }.to raise_exception
-     end
+  describe '.destroy' do
+    it 'destroys the correct model' do
+      model
+      expect { delete :destroy, id: model.id }
+        .to change { ShortTestModel.count }.by(-1)
+      expect { ShortTestModel.find(model.id) }.to raise_exception
+    end
 
-     it 'redirects to index' do
-       delete :destroy, id: model.id
-       expect(response).to redirect_to short_test_models_path
-     end
-   end
+    it 'redirects to index' do
+      delete :destroy, id: model.id
+      expect(response).to redirect_to short_test_models_path
+    end
+  end
 end

@@ -4,8 +4,7 @@ require_relative '../../../spec/support/respondable_spec'
 describe BasicCrudActions::ResponseObjects::Success do
   let(:controller) { double }
   let(:test_success_object) do
-    test_success_object = BasicCrudActions::
-        ResponseObjects::Success.new(controller)
+    BasicCrudActions::ResponseObjects::Success.new(controller)
   end
 
   describe '.flash' do

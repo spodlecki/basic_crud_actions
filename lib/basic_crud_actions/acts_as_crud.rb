@@ -22,7 +22,6 @@ module BasicCrudActions
         include BasicCrudActions::ActsAsCrud::LocalInstanceMethods
       end
 
-      # TODO: add 'autopilot' version that generates things automatically
       # TODO: pass in model as a param?
       def acts_as_crud(options = {})
         cattr_accessor :acts_as_crud_text_field
@@ -33,7 +32,8 @@ module BasicCrudActions
         # use #define_method for closures!
         create_class_name(options)
 
-        include_actions
+        require_relative 'controller_actions'
+        include_actions(BasicCrudActions::ControllerActions.to_include(options))
       end
 
       private
@@ -45,10 +45,14 @@ module BasicCrudActions
         end
       end
 
-      def include_actions
-        include BasicCrudActions::ActsAsCrud::LocalInstanceMethods
+      def include_actions(methods)
         require_relative 'action_shortcuts'
-        include BasicCrudActions::ActsAsCrud::ActionShortcuts
+        include BasicCrudActions::ActsAsCrud::ActionShortcuts::Base
+        methods.each do |method|
+          include(('BasicCrudActions::ActsAsCrud::ActionShortcuts::' +
+                    method.to_s.capitalize).constantize)
+        end
+        include BasicCrudActions::ActsAsCrud::LocalInstanceMethods
       end
     end
 

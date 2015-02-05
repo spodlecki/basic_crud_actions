@@ -5,7 +5,8 @@ describe TestModelsController, type: :controller do
   describe '#basic_crud_actions' do
     context 'TestModelsController' do
       it 'names the action acts_as_crud_verbose' do
-        expect(described_class.acts_as_crud_text_field).to eq 'acts_as_crud_verbose'
+        expect(described_class.acts_as_crud_text_field)
+          .to eq 'acts_as_crud_verbose'
       end
     end
 
@@ -20,6 +21,7 @@ describe TestModelsController, type: :controller do
   describe '.class name' do
     context 'custom_name is set' do
       it 'returns the custom name' do
+        # New controller for this spec only
         class CustomController < ActionController::Base
           acts_as_crud_verbose model_name: 'foo'
         end
@@ -29,6 +31,7 @@ describe TestModelsController, type: :controller do
 
     context 'custom_name is not set' do
       it 'returns the introspective_class_name' do
+        # New controller for this spec only
         class CustomController < ActionController::Base
           acts_as_crud_verbose
         end
