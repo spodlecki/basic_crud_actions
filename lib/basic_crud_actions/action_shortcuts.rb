@@ -1,27 +1,39 @@
 module BasicCrudActions
   module ActsAsCrud
+    # mixed in crud controller actions, for a super light controller def!
     module ActionShortcuts
       using BasicCrudActions::ActsAsCrud::SaveReturnsStatusObjects
       def create
         set_instance_variable(new_model_source, create_params)
-        instance_variable_get(instance_variable_name).save(args_with_context).respond
+        instance_variable_get(instance_variable_name)
+          .save(args_with_context).respond
+      end
+
+      def destroy
+        model_source.call(params[:id]).destroy
+        redirect_to action: 'index'
       end
 
       def edit
-        set_instance_variable(model_source, params[:id])
+        find_model
       end
 
       def index
-        instance_variable_set(instance_variable_name.pluralize, models_source.call)
+        instance_variable_set(instance_variable_name.pluralize,
+                              models_source.call)
       end
 
       def update
-        set_instance_variable(model_source, params[:id])
+        find_model
         instance_variable_get(instance_variable_name)
           .update_attributes(args_with_context(update_params)).respond
       end
 
       private
+
+      def find_model
+        set_instance_variable(model_source, params[:id])
+      end
 
       def instance_variable_name
         "@#{class_name.underscore}"

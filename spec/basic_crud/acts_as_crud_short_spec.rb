@@ -90,4 +90,17 @@ describe ShortTestModelsController, type: :controller do
       expect(response).to render_template 'index'
     end
   end
+
+   describe '.destroy' do
+     it 'destroys the correct model' do
+       model
+       expect{ delete :destroy, id: model.id }.to change { ShortTestModel.count }.by(-1)
+       expect{ ShortTestModel.find(model.id) }.to raise_exception
+     end
+
+     it 'redirects to index' do
+       delete :destroy, id: model.id
+       expect(response).to redirect_to short_test_models_path
+     end
+   end
 end
