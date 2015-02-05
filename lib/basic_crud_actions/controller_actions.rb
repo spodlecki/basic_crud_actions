@@ -1,7 +1,7 @@
 module BasicCrudActions
   # Handles which actions should be created
   module ControllerActions
-    SUPPORTED_ACTIONS = %i(create destroy edit index update)
+    SUPPORTED_ACTIONS = [:create, :destroy, :edit, :index, :update]
     def self.to_include(options)
       methods = SUPPORTED_ACTIONS.dup
       options.fetch(:except, []).each do |action|

@@ -2,13 +2,18 @@ module BasicCrudActions
   module ActsAsCrud
     # mixed in crud controller actions, for a super light controller def!
     module ActionShortcuts
-      using BasicCrudActions::ActsAsCrud::SaveReturnsStatusObjects
+      if RUBY_VERSION >= '2.0.0'
+        using BasicCrudActions::ActsAsCrud::SaveReturnsStatusObjects
+      else
+        require_relative 'legacy_ruby_decorator'
+        include BasicCrudActions::ActsAsCrud::LegacyRubyDecorator
+      end
       # Adds create action
       module Create
         def create
           set_instance_variable(new_model_source, create_params)
           instance_variable_get(instance_variable_name)
-            .save(args_with_context).respond
+            .save(args_with_context(create_params)).respond
         end
       end
 
@@ -68,8 +73,17 @@ module BasicCrudActions
           model.public_method :new
         end
 
-        def set_instance_variable(source, params)
+        def set_instance_variable(source, params = {})
           instance_variable_set(instance_variable_name, source.call(params))
+        end
+
+        unless RUBY_VERSION >= '2.0.0'
+          require_relative 'legacy_ruby_decorator'
+          define_method :set_instance_variable do |source, params = {}|
+            instance_variable_set(instance_variable_name,
+                                  BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::
+                                      ResponseDecorator.new(source.call(params)))
+          end
         end
       end
     end

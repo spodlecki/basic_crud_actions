@@ -55,8 +55,8 @@ describe ShortTestModelsController, type: :controller do
     end
   end
 
-  let(:selected_actions) { %i(destroy edit) }
-  let(:unselected_actions) { %i(create index update) }
+  let(:selected_actions) { [:destroy, :edit] }
+  let(:unselected_actions) { [:create, :index, :update] }
 
   describe 'except option' do
     it 'does not respond to any of the eumerated methods' do
@@ -86,9 +86,9 @@ describe ShortTestModelsController, type: :controller do
     context 'option set' do
       it 'sets the model to the correct option' do
         class CustomController3 < ActionController::Base
-          acts_as_crud model: TestModel
+          acts_as_crud model: ShortTestModel
         end
-        expect(CustomController3.new.model).to eq TestModel
+        expect(CustomController3.new.model).to eq ShortTestModel
       end
     end
     context 'option not set' do
