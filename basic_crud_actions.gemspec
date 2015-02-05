@@ -7,8 +7,8 @@ require "basic_crud_actions/version"
 Gem::Specification.new do |s|
   s.name        = 'basic_crud_actions'
   s.version     = BasicCrudActions::VERSION
-  s.authors     = ['SK Intertainment Inc']
-  s.email       = ['contact.skintertainment.com']
+  s.authors     = ['Matthew Rieger']
+  s.email       = ['matthew.rieger@gmail.com']
   s.homepage    = 'http://skintertainment.com'
   WORDS_ABOUT_GEM = 'Adds basic CRUD-type controller actions to avoid duplication'
   s.summary     = WORDS_ABOUT_GEM
