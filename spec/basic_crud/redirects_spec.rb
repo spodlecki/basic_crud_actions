@@ -23,6 +23,7 @@ describe ShortTestModelsController, type: :controller do
     context 'create action' do
       it 'renders new' do
         expect(controller).to receive(:render).with(:new).and_call_original
+        allow(controller).to receive(:action_name).and_return('create')
         post :create_fail
       end
     end
@@ -30,6 +31,7 @@ describe ShortTestModelsController, type: :controller do
     context 'update action' do
       it 'renders edit' do
         expect(controller).to receive(:render).with(:edit).and_call_original
+        allow(controller).to receive(:action_name).and_return('update')
         post :update_fail
       end
     end

@@ -1,23 +1,33 @@
 require 'rails_helper'
 
-def expect_success_object
-  expect(assigns(:test_save))
-    .to be_a_kind_of BasicCrudActions::ResponseObjects::Success
-end
+
 if RUBY_VERSION >= '2.0.0'
-  describe ShortTestModelsController, type: :controller do
+  describe ShortTestModel do
+    require_relative '../../lib/basic_crud_actions/save_returns_status_objects'
+    using BasicCrudActions::ActsAsCrud::SaveReturnsStatusObjects
+
+    def expect_success_object(model)
+      expect(model.save(args_with_context))
+        .to be_a_kind_of BasicCrudActions::ResponseObjects::Success
+    end
+
+    def args_with_context
+      BasicCrudActions::ArgsWithContext.new(ShortTestModelsController.new)
+    end
+
+    let(:test_model) { ShortTestModel.new }
     describe '.save' do
       context 'valid params' do
         it 'returns a success object' do
-          get :test_save
-          expect_success_object
+          expect_success_object(test_model)
         end
       end
 
       context 'invald_params' do
         it 'returns a failure object' do
-          get :test_save_invalid
-          expect(assigns(:test_save))
+          first_model = ShortTestModel.create
+          test_model.id = first_model.id
+          expect(test_model.save(args_with_context))
             .to be_a_kind_of BasicCrudActions::ResponseObjects::Failure
         end
       end
@@ -26,13 +36,14 @@ if RUBY_VERSION >= '2.0.0'
     describe '.save!' do
       context 'valid params' do
         it 'returns a success object' do
-          get :test_save_bang
-          expect_success_object
+          expect(test_model.save!(args_with_context)).to be_a_kind_of BasicCrudActions::ResponseObjects::Success
         end
       end
       context 'invalid params' do
         it 'raises' do
-          expect { get :test_save_bang_invalid }.to raise_exception
+          first_model = ShortTestModel.create
+          test_model.id = first_model.id
+          expect { test_model.save!(args_with_context) }.to raise_exception
         end
       end
     end
@@ -40,9 +51,8 @@ if RUBY_VERSION >= '2.0.0'
     describe '.update_attributes' do
       context 'valid params' do
         it 'returns a success object' do
-          model = ShortTestModel.create
-          get :update, id: model.id
-          expect_success_object
+          test_model = ShortTestModel.create
+          expect(test_model.update_attributes(BasicCrudActions::ArgsWithContext.new(ShortTestModelsController.new, id: test_model.id + 1))).to be_a_kind_of BasicCrudActions::ResponseObjects::Success
         end
       end
     end

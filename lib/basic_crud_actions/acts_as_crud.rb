@@ -4,6 +4,7 @@ module BasicCrudActions
   module ActsAsCrud
     require_relative '../../lib/examples/flashes_examples'
     require_relative 'args_with_context'
+    require_relative 'controller_actions'
     extend ActiveSupport::Concern
     extend BasicCrudActions::Examples::FlashesExamples
 
@@ -33,7 +34,6 @@ module BasicCrudActions
         create_class_name(options)
         create_model_assoc(options)
 
-        require_relative 'controller_actions'
         include_actions(BasicCrudActions::ControllerActions.to_include(options))
       end
 

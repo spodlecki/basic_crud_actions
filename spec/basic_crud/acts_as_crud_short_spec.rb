@@ -102,7 +102,11 @@ describe ShortTestModelsController, type: :controller do
     subject { post :create, test: {} }
     before { subject }
     it 'sets the proper ivar' do
-      expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
+      if RUBY_VERSION >= '2.0.0'
+        expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
+      else
+        expect(assigns(:short_test_model)).to be_a_kind_of BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator
+      end
     end
 
     it 'invokes the correct response' do
@@ -116,7 +120,11 @@ describe ShortTestModelsController, type: :controller do
     subject { post :update, id: model.id }
     before { subject }
     it 'sets the proper ivar' do
-      expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
+      if RUBY_VERSION >= '2.0.0'
+        expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
+      else
+        expect(assigns(:short_test_model)).to be_a_kind_of BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator
+      end
     end
 
     it 'invokes the correct response' do
