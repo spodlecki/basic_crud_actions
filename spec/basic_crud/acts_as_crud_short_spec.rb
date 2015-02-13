@@ -173,4 +173,5 @@ describe ShortTestModelsController, type: :controller do
       expect(response).to redirect_to short_test_models_path
     end
   end
+
 end

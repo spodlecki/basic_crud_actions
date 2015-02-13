@@ -49,7 +49,7 @@ module BasicCrudActions
       def create_model_assoc(options)
         define_method :model do
           @model ||= options.fetch(:model, nil) ||
-            introspective_class_name.constantize
+                     introspective_class_name.constantize
         end
       end
 
@@ -76,7 +76,6 @@ module BasicCrudActions
       include BasicCrudActions::ActsAsCrud::Redirects
 
       private
-
 
       def introspective_class_name
         self.class.to_s.gsub(/\w+::/, '').gsub('Controller', '')
