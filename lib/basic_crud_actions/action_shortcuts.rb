@@ -40,6 +40,12 @@ module BasicCrudActions
         end
       end
 
+      module New
+        def new
+          set_instance_variable(new_model_source, create_params)
+        end
+      end
+
       # Adds update action
       module Update
         def update

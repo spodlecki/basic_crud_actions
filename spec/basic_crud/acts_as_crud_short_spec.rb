@@ -160,6 +160,18 @@ describe ShortTestModelsController, type: :controller do
     end
   end
 
+  describe '.new' do
+    it 'gives a new version of the model to the view' do
+      get :new
+      expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
+    end
+
+    it 'renders new' do
+      get :new
+      expect(response).to render_template('new')
+    end
+  end
+
   describe '.destroy' do
     it 'destroys the correct model' do
       model
