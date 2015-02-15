@@ -11,11 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204193103) do
+ActiveRecord::Schema.define(version: 20150213194503) do
 
   create_table "short_test_models", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.boolean  "filter_flag"
+    t.boolean  "second_filter_flag"
   end
 
   create_table "test_models", force: :cascade do |t|

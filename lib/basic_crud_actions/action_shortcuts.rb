@@ -40,6 +40,12 @@ module BasicCrudActions
         end
       end
 
+      module New
+        def new
+          set_instance_variable(new_model_source, create_params)
+        end
+      end
+
       # Adds update action
       module Update
         def update
@@ -81,8 +87,10 @@ module BasicCrudActions
           require_relative 'legacy_ruby_decorator'
           define_method :set_instance_variable do |source, params = {}|
             instance_variable_set(instance_variable_name,
-                                  BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::
-                                      ResponseDecorator.new(source.call(params)))
+                                  BasicCrudActions::ActsAsCrud::
+                                      LegacyRubyDecorator::
+                                      ResponseDecorator
+                                    .new(source.call(params)))
           end
         end
       end
