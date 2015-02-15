@@ -36,7 +36,8 @@ if RUBY_VERSION >= '2.0.0'
     describe '.save!' do
       context 'valid params' do
         it 'returns a success object' do
-          expect(test_model.save!(args_with_context)).to be_a_kind_of BasicCrudActions::ResponseObjects::Success
+          expect(test_model.save!(args_with_context))
+            .to be_a_kind_of BasicCrudActions::ResponseObjects::Success
         end
       end
       context 'invalid params' do
@@ -52,7 +53,11 @@ if RUBY_VERSION >= '2.0.0'
       context 'valid params' do
         it 'returns a success object' do
           test_model = ShortTestModel.create
-          expect(test_model.update_attributes(BasicCrudActions::ArgsWithContext.new(ShortTestModelsController.new, id: test_model.id + 1))).to be_a_kind_of BasicCrudActions::ResponseObjects::Success
+          expect(test_model
+                   .update_attributes(BasicCrudActions::ArgsWithContext
+                                        .new(ShortTestModelsController.new,
+                                             id: test_model.id + 1)))
+            .to be_a_kind_of BasicCrudActions::ResponseObjects::Success
         end
       end
     end
@@ -64,7 +69,8 @@ if RUBY_VERSION >= '2.0.0'
             described_class.create filter_flag: false
           end
           filtered = described_class.create filter_flag: true
-          expect(described_class.all.filter { where(filter_flag: true) }).to eq described_class.where(filter_flag: true)
+          expect(described_class.all.filter { where(filter_flag: true) })
+            .to eq described_class.where(filter_flag: true)
         end
       end
 
@@ -73,8 +79,11 @@ if RUBY_VERSION >= '2.0.0'
           3.times do
             described_class.create filter_flag: true, second_filter_flag: false
           end
-          filtered = described_class.create filter_flag: true, second_filter_flag: true
-          expect(described_class.all.filter(filter_flag: true, second_filter_flag: true)).to eq described_class.where(filter_flag: true, second_filter_flag: true)
+          described_class.create filter_flag: true, second_filter_flag: true
+          expect(described_class.all.filter(filter_flag: true,
+                                            second_filter_flag: true))
+            .to eq described_class.where(filter_flag: true,
+                                         second_filter_flag: true)
 
         end
       end
@@ -84,7 +93,7 @@ if RUBY_VERSION >= '2.0.0'
           3.times do
             described_class.create filter_flag: true, second_filter_flag: false
           end
-          filtered = described_class.create filter_flag: true, second_filter_flag: true
+          described_class.create filter_flag: true, second_filter_flag: true
           expect(described_class.all.filter(filter_flag: true) { where(second_filter_flag: true)}.map(&:id)).to eq described_class.where(filter_flag: true, second_filter_flag: true).map(&:id)
         end
       end

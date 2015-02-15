@@ -105,7 +105,9 @@ describe ShortTestModelsController, type: :controller do
       if RUBY_VERSION >= '2.0.0'
         expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
       else
-        expect(assigns(:short_test_model)).to be_a_kind_of BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator
+        expect(assigns(:short_test_model))
+          .to be_a_kind_of BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::
+                               ResponseDecorator
       end
     end
 
@@ -123,7 +125,9 @@ describe ShortTestModelsController, type: :controller do
       if RUBY_VERSION >= '2.0.0'
         expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
       else
-        expect(assigns(:short_test_model)).to be_a_kind_of BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator
+        expect(assigns(:short_test_model))
+          .to be_a_kind_of BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::
+                               ResponseDecorator
       end
     end
 

@@ -16,7 +16,9 @@ describe BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator do
         ShortTestModel.create filter_flag: false
       end
       filtered = ShortTestModel.create filter_flag: true
-      expect(described_class.new(ShortTestModel.all).filter { where(filter_flag: true) }).to eq ShortTestModel.where(filter_flag: true)
+      expect(described_class.new(ShortTestModel.all)
+               .filter { where(filter_flag: true) })
+               .to eq ShortTestModel.where(filter_flag: true)
     end
   end
 
@@ -25,8 +27,12 @@ describe BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator do
       3.times do
          ShortTestModel.create filter_flag: true, second_filter_flag: false
       end
-      filtered =ShortTestModel.create filter_flag: true, second_filter_flag: true
-      expect(described_class.new(ShortTestModel.all).filter(filter_flag: true, second_filter_flag: true)).to eq ShortTestModel.where(filter_flag: true, second_filter_flag: true)
+      filtered =ShortTestModel.create filter_flag: true,
+                                      second_filter_flag: true
+      expect(described_class.new(ShortTestModel.all)
+               .filter(filter_flag: true, second_filter_flag: true))
+               .to eq ShortTestModel
+                        .where(filter_flag: true, second_filter_flag: true)
 
     end
   end
@@ -36,8 +42,15 @@ describe BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator do
       3.times do
         ShortTestModel.create filter_flag: true, second_filter_flag: false
       end
-      filtered = ShortTestModel.create filter_flag: true, second_filter_flag: true
-      expect(described_class.new(ShortTestModel.all).filter(filter_flag: true) { where(second_filter_flag: true)}.map(&:id)).to eq ShortTestModel.where(filter_flag: true, second_filter_flag: true).map(&:id)
+      ShortTestModel.create filter_flag: true, second_filter_flag: true
+      test_decorator = described_class.new(ShortTestModel.all)
+      filtered = test_decorator.filter(filter_flag: true) do
+        where(second_filter_flag: true)
+      end
+      filtered_ids = filtered.map(&:id)
+      expect(filtered_ids).to eq ShortTestModel
+                                   .where(filter_flag: true,
+                                          second_filter_flag: true).map(&:id)
     end
   end
 end

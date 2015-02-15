@@ -6,7 +6,8 @@ describe ShortTestModelsController, type: :controller do
     context 'create action' do
       it 'redirects to the proper path' do
         post :create, test: {}
-        expect(response).to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
+        expect(response)
+            .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
       end
     end
 
@@ -14,7 +15,8 @@ describe ShortTestModelsController, type: :controller do
       it 'redirects to the proper path' do
         model = ShortTestModel.create
         get :update, id: model.id, test: {}
-        expect(response).to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
+        expect(response)
+          .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
       end
     end
   end
