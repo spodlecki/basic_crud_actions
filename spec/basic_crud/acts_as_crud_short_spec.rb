@@ -167,6 +167,7 @@ describe ShortTestModelsController, type: :controller do
   describe '.new' do
     it 'gives a new version of the model to the view' do
       get :new
+      require 'pry'
       expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
     end
 
