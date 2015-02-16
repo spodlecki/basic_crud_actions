@@ -42,7 +42,7 @@ module BasicCrudActions
 
       module New
         def new
-          set_instance_variable(new_model_source, create_params)
+          set_instance_variable(new_model_source, {})
         end
       end
 
