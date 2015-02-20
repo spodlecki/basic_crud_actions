@@ -44,8 +44,8 @@ module BasicCrudActions
       end
 
       refine ActiveRecord::Relation do
-        def filter(args = {}, &block)
-          return instance_eval(&block).filter(args) if block_given?
+        def filter(args = {})
+          return (yield self).filter(args) if block_given?
           key = args.keys.first
           val = args.delete(key)
           key ? where(key => val).filter(args) : self

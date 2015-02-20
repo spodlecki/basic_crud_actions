@@ -6,7 +6,6 @@ module BasicCrudActions
       # This module backports the refinement functionality in the app to
       # Ruby 1.9.3
       class ResponseDecorator < SimpleDelegator
-
         def class
           __getobj__.class
         end
@@ -15,10 +14,12 @@ module BasicCrudActions
           self.class.new(obj)
         end
 
-        def filter(args = {}, &block)
+        def filter(args = {})
           return [] unless ActiveRecord::Relation.descendants
-                             .include? __getobj__.class
-          return ResponseDecorator.new(instance_eval(&block)).filter(args) if block_given?
+                           .include? __getobj__.class
+          if block_given?
+            return ResponseDecorator.new((yield self)).filter(args)
+          end
           key, val = HashHelper.pop_hash_val(args)
           key ? ResponseDecorator.new(where(key => val)).filter(args) : self
         end

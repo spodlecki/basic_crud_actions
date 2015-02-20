@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 if RUBY_VERSION >= '2.0.0'
   describe ShortTestModel do
     require_relative '../../lib/basic_crud_actions/save_returns_status_objects'
@@ -68,8 +67,10 @@ if RUBY_VERSION >= '2.0.0'
           3.times do
             described_class.create filter_flag: false
           end
-          filtered = described_class.create filter_flag: true
-          expect(described_class.all.filter { where(filter_flag: true) })
+          described_class.create filter_flag: true
+          expect(described_class.all.filter do |results|
+                   results.where(filter_flag: true)
+                 end)
             .to eq described_class.where(filter_flag: true)
         end
       end
@@ -84,7 +85,6 @@ if RUBY_VERSION >= '2.0.0'
                                             second_filter_flag: true))
             .to eq described_class.where(filter_flag: true,
                                          second_filter_flag: true)
-
         end
       end
 
@@ -94,7 +94,8 @@ if RUBY_VERSION >= '2.0.0'
             described_class.create filter_flag: true, second_filter_flag: false
           end
           described_class.create filter_flag: true, second_filter_flag: true
-          expect(described_class.all.filter(filter_flag: true) { where(second_filter_flag: true)}.map(&:id)).to eq described_class.where(filter_flag: true, second_filter_flag: true).map(&:id)
+          expect(described_class.all
+                   .filter(filter_flag: true) { |results| results.where(second_filter_flag: true)}.map(&:id)).to eq described_class.where(filter_flag: true, second_filter_flag: true).map(&:id)
         end
       end
     end

@@ -15,25 +15,24 @@ describe BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator do
       3.times do
         ShortTestModel.create filter_flag: false
       end
-      filtered = ShortTestModel.create filter_flag: true
+      ShortTestModel.create filter_flag: true
       expect(described_class.new(ShortTestModel.all)
-               .filter { where(filter_flag: true) })
-               .to eq ShortTestModel.where(filter_flag: true)
+               .filter { |results| results.where(filter_flag: true) })
+        .to eq ShortTestModel.where(filter_flag: true)
     end
   end
 
   context 'args passed' do
     it 'evalutates each key value pair in a where clause' do
       3.times do
-         ShortTestModel.create filter_flag: true, second_filter_flag: false
+        ShortTestModel.create filter_flag: true, second_filter_flag: false
       end
-      filtered =ShortTestModel.create filter_flag: true,
-                                      second_filter_flag: true
+      ShortTestModel.create filter_flag: true,
+                            second_filter_flag: true
       expect(described_class.new(ShortTestModel.all)
                .filter(filter_flag: true, second_filter_flag: true))
-               .to eq ShortTestModel
-                        .where(filter_flag: true, second_filter_flag: true)
-
+        .to eq ShortTestModel
+        .where(filter_flag: true, second_filter_flag: true)
     end
   end
 
@@ -44,13 +43,13 @@ describe BasicCrudActions::ActsAsCrud::LegacyRubyDecorator::ResponseDecorator do
       end
       ShortTestModel.create filter_flag: true, second_filter_flag: true
       test_decorator = described_class.new(ShortTestModel.all)
-      filtered = test_decorator.filter(filter_flag: true) do
-        where(second_filter_flag: true)
+      filtered = test_decorator.filter(filter_flag: true) do |results|
+        results.where(second_filter_flag: true)
       end
       filtered_ids = filtered.map(&:id)
       expect(filtered_ids).to eq ShortTestModel
-                                   .where(filter_flag: true,
-                                          second_filter_flag: true).map(&:id)
+        .where(filter_flag: true,
+               second_filter_flag: true).map(&:id)
     end
   end
 end
