@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../lib/examples/flashes_examples'
 
 def expect_not_to_respond(subject, actions)
   expect_respond(subject, actions, :not_to)
@@ -100,8 +101,8 @@ describe ShortTestModelsController, type: :controller do
 
   describe '.create' do
     subject { post :create, test: {} }
-    before { subject }
     it 'sets the proper ivar' do
+      subject
       if RUBY_VERSION >= '2.0.0'
         expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
       else
@@ -112,9 +113,16 @@ describe ShortTestModelsController, type: :controller do
     end
 
     it 'invokes the correct response' do
+      subject
       expect(response)
         .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
     end
+
+    it 'persists the model' do
+      expect{ subject }.to change{ ShortTestModel.count }.by 1
+    end
+
+    it_behaves_like 'basic_crud create'
   end
 
   let(:model) { ShortTestModel.create }
@@ -138,57 +146,65 @@ describe ShortTestModelsController, type: :controller do
   end
 
   describe '.edit' do
+    subject { get :edit, id: model.id }
+    before { subject }
     it 'sets the proper ivar' do
-      get :edit, id: model.id
       expect(assigns(:short_test_model)).to eq model
     end
 
     it 'renders edit' do
-      get :edit, id: model.id
       expect(response).to render_template 'edit'
     end
+
+    it_behaves_like 'basic_crud edit'
   end
 
   describe '.index' do
+    subject { get :index }
     it 'pulls in all of the models' do
       2.times do
         ShortTestModel.create
       end
-      get :index
+      subject
       expect(assigns(:short_test_models)).to eq ShortTestModel.all
     end
 
     it 'renders index' do
-      get :index
+      subject
       expect(response).to render_template 'index'
     end
+
+    it_behaves_like 'basic_crud index'
   end
 
   describe '.new' do
+    subject { get :new }
+    before { subject }
     it 'gives a new version of the model to the view' do
-      get :new
-      require 'pry'
       expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
     end
 
     it 'renders new' do
-      get :new
       expect(response).to render_template('new')
     end
+
+    it_behaves_like 'basic_crud new'
   end
 
   describe '.destroy' do
+    subject { delete :destroy, id: model.id }
     it 'destroys the correct model' do
       model
-      expect { delete :destroy, id: model.id }
-        .to change { ShortTestModel.count }.by(-1)
+      expect { subject }.to change { ShortTestModel.count }.by(-1)
       expect { ShortTestModel.find(model.id) }.to raise_exception
     end
 
     it 'redirects to index' do
-      delete :destroy, id: model.id
+      subject
       expect(response).to redirect_to short_test_models_path
     end
+
+    it_behaves_like 'basic_crud destroy'
   end
 
 end
