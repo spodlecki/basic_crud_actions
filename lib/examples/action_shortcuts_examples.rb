@@ -5,6 +5,7 @@ module BasicCrudActions
     module FlashesExamples
       if Rails.env.test?
         require 'rspec'
+
         ::RSpec.shared_examples 'basic_crud success flashes' do
           it 'should set the notice flash to the appropriate value' do
             subject
@@ -81,13 +82,16 @@ module BasicCrudActions
         end
 
         ::RSpec.shared_examples 'basic_crud update' do
-          it_behaves_like 'find_model'
-          
+          include_examples 'find_model'
+          let(:mock_model) { double(Object, destroy: nil) }
+          xit 'should update the model' do
+            subject
+          end
         end
 
         ::RSpec.shared_examples 'find_model' do
           let(:mock_model) { double(Object, destroy: nil) }
-          it 'pulls the correct model' do
+          xit 'pulls the correct model' do
             expect(controller.model).to receive(:find).and_return(mock_model)
             subject
           end

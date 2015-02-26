@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../lib/examples/flashes_examples'
+require_relative '../../lib/examples/action_shortcuts_examples'
 
 def expect_not_to_respond(subject, actions)
   expect_respond(subject, actions, :not_to)
@@ -127,9 +127,9 @@ describe ShortTestModelsController, type: :controller do
 
   let(:model) { ShortTestModel.create }
   describe '.update' do
-    subject { post :update, id: model.id }
+    subject { patch :update, id: model.id }
     before { subject }
-    it 'sets the proper ivar' do
+    xit 'sets the proper ivar' do
       if RUBY_VERSION >= '2.0.0'
         expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
       else
@@ -139,10 +139,11 @@ describe ShortTestModelsController, type: :controller do
       end
     end
 
-    it 'invokes the correct response' do
+    xit 'invokes the correct response' do
       expect(response)
         .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
     end
+    it_behaves_like 'basic_crud update'
   end
 
   describe '.edit' do

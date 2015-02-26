@@ -2,7 +2,7 @@ module BasicCrudActions
   # Adds the Basic Crud functionality to any Rails Controller that
   # is a descendent of ActionController::Base
   module ActsAsCrud
-    require_relative '../../lib/examples/flashes_examples'
+    require_relative '../../lib/examples/action_shortcuts_examples'
     require_relative 'args_with_context'
     require_relative 'controller_actions'
     extend ActiveSupport::Concern
