@@ -2,7 +2,7 @@ module BasicCrudActions
   module Examples
     # RSpec shared examples to make sure success_flash and failure_flash
     # are working as intended.
-    module FlashesExamples
+    module ActionShortcutsExamples
       if Rails.env.test?
         require 'rspec'
 

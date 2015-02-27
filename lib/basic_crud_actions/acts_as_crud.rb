@@ -6,7 +6,6 @@ module BasicCrudActions
     require_relative 'args_with_context'
     require_relative 'controller_actions'
     extend ActiveSupport::Concern
-    extend BasicCrudActions::Examples::FlashesExamples
 
     # Adds the class macro acts_as_crud to a controller, injecting
     # the BasicCrud methods
@@ -16,6 +15,7 @@ module BasicCrudActions
         self.acts_as_crud_text_field = options.fetch(:acts_as_crud_text_field,
                                                      :acts_as_crud_verbose).to_s
 
+        extend BasicCrudActions::Examples::ActionShortcutsExamples
         # Put methods that need access to the options hash here:
         # use define_method for closures!
         create_class_name(options)
