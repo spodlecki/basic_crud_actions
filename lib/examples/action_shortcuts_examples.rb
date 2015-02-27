@@ -25,7 +25,7 @@ module BasicCrudActions
         ::RSpec.shared_examples 'basic_crud create' do
           it 'should set an instance variable with the proper model name' do
             subject
-            correct_class = model.class
+            correct_class = controller.model
             expect(assigns(correct_class.name.underscore)).to be_a_kind_of correct_class
           end
 
