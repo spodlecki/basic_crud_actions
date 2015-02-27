@@ -26,7 +26,7 @@ module BasicCrudActions
           it 'should set an instance variable with the proper model name' do
             subject
             correct_class = controller.model
-            expect(assigns(correct_class.name.underscore)).to be_a_kind_of correct_class
+            expect(assigns(controller.send(:instance_variable_name).gsub('@',''))).to be_a_kind_of correct_class
           end
 
           it 'should save the model' do
