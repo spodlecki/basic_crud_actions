@@ -63,7 +63,7 @@ module BasicCrudActions
         ::RSpec.shared_examples 'basic_crud edit' do
           it 'pulls the correct model' do
             subject
-            expect(assigns(controller.model.name.underscore)).to be_a_kind_of controller.model
+            expect(assigns(controller.send(:instance_variable_name).gsub('@',''))).to be_a_kind_of controller.model
           end
         end
 
@@ -77,7 +77,7 @@ module BasicCrudActions
         ::RSpec.shared_examples 'basic_crud new' do
           it 'pulls a new version of the correct model' do
             subject
-            expect(assigns(controller.model.name.underscore)).to be_a_kind_of controller.model
+            expect(assigns(controller.send(:instance_variable_name).gsub('@',''))).to be_a_kind_of controller.model
           end
         end
 
