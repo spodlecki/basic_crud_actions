@@ -14,7 +14,7 @@ module BasicCrudActions
         end
 
         it 'should call response on the result of .save' do
-          mock_model = double
+          mock_model = double.as_null_object
           allow(controller.model).to receive(:new).and_return(mock_model)
           mock_response_obj = double
           allow(mock_model).to receive(:save).and_return(mock_response_obj)
