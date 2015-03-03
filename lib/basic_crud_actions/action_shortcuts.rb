@@ -40,6 +40,7 @@ module BasicCrudActions
         end
       end
 
+      # Adds new action
       module New
         def new
           set_instance_variable(new_model_source, {})

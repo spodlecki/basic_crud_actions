@@ -115,4 +115,8 @@ being properly set. The shared examples are automatically added and ready to go 
 * `basic_crud update`
 * `find_model`
 
+In order to use the examples you need to create a subject block
+containing a standard example of the controller call, e.g, `subject { get :index } ` and
+for the `.update` action only, a `let(:model)` statement with its block a the sample model you want to work with.
+
 [^or-alias]: Or alias create_params, your call.

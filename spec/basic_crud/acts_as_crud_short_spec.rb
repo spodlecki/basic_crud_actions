@@ -128,8 +128,8 @@ describe ShortTestModelsController, type: :controller do
   let(:model) { ShortTestModel.create }
   describe '.update' do
     subject { patch :update, id: model.id }
-    before { subject }
-    xit 'sets the proper ivar' do
+    it 'sets the proper ivar' do
+      subject
       if RUBY_VERSION >= '2.0.0'
         expect(assigns(:short_test_model)).to be_a_kind_of ShortTestModel
       else
@@ -139,10 +139,12 @@ describe ShortTestModelsController, type: :controller do
       end
     end
 
-    xit 'invokes the correct response' do
+    it 'invokes the correct response' do
+      subject
       expect(response)
         .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
     end
+
     it_behaves_like 'basic_crud update'
   end
 
