@@ -31,8 +31,8 @@ module BasicCrudActions
 
         # Put methods that need access to the options hash here:
         # use #define_method for closures!
-        create_class_name(options)
         create_model_assoc(options)
+        create_class_name(options)
 
         include_actions(BasicCrudActions::ControllerActions.to_include(options))
       end
@@ -78,8 +78,8 @@ module BasicCrudActions
       private
 
       def introspective_class_name
-        self.class.to_s.gsub(/\w+::/, '').gsub('Controller', '')
-          .singularize
+        @model ? @model.to_s : self.class.to_s.gsub(/\w+::/, '')
+          .gsub('Controller', '').singularize
       end
     end
   end

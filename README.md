@@ -64,6 +64,7 @@ to `acts_as_crud`
 
 * `model:` sets a custom model for flashes, instance variables, etc. Pass in the class itself, not an instant or string
  of the name
+* 'model-name:' sets a custom name
 * `only:` takes an array of symbols for which CRUD actions you want added to this controller
 options are `:create, :update, :new, :index, :edit, :destroy`. Ex: `acts_as_crud only: [:create, :update]`
 * `except:` takes an array of symbols for which CRUD actions you do **not** want to add to
