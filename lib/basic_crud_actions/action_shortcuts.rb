@@ -21,7 +21,7 @@ module BasicCrudActions
       module Destroy
         def destroy
           model_source.call(params[:id]).destroy
-          redirect_to action: 'index'
+          redirect_to action: 'index', status: 303
         end
       end
 
