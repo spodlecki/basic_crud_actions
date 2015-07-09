@@ -3,20 +3,22 @@ require 'rails_helper'
 describe ShortTestModelsController, type: :controller do
   render_views
   describe '.success_redirect' do
+    before(:each) do
+      10.times { ShortTestModel.create }
+    end
+
     context 'create action' do
       it 'redirects to the proper path' do
         post :create, test: {}
-        expect(response)
-            .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
+        expect(response).to redirect_to edit_short_test_model_path(assigns(:short_test_model).id)
       end
     end
 
     context 'update action' do
       it 'redirects to the proper path' do
-        model = ShortTestModel.create
+        model = ShortTestModel.first
         get :update, id: model.id, test: {}
-        expect(response)
-          .to redirect_to edit_short_test_model_path(ShortTestModel.last.id)
+        expect(response).to redirect_to edit_short_test_model_path(model.id)
       end
     end
   end

@@ -4,7 +4,8 @@ module BasicCrudActions
     # used in its delegator Success and Failure objects.
     module Redirects
       def success_redirect
-        redirect_to action: 'edit', id: model.last.id, status: 303
+        instance = instance_variable_get(instance_variable_name)
+        redirect_to action: 'edit', id: instance.id, status: 303
       end
 
       def failure_redirect
