@@ -40,6 +40,8 @@ module BasicCrudActions
           it 'should update the model' do
             mock_model = double
             mock_method = double
+
+            expect(mock_model).to receive(:id) { model.id }
             expect(controller).to receive(:model_source).and_return(mock_method)
             expect(mock_method).to receive(:call).with(model.id.to_s)
               .and_return(mock_model)
